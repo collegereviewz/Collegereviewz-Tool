@@ -1,0 +1,61 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*.local
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Build / output
+dist/
+build/
+out/
+coverage/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+env/
+venv/
+.venv/
+
+# Java
+target/
+*.class
+*.jar
+*.war
+
+# Go
+bin/
+*.exe
+
+# Rust
+/target/
+
+# Docker
+docker-compose.override.yml
+
+# Database / misc
+*.sqlite3
+*.db
+*.pid
+/*.seed
