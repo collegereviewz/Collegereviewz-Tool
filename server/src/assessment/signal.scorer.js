@@ -1,10 +1,8 @@
-// assessment/signal.scorer.js
-
 import questionnaireDefinition from "./questionnaire.definition.js";
 
 /**
  * Builds raw signal scores from answers
- * Output format:
+ * Output:
  * {
  *   COGNITIVE: { score, max },
  *   NUMERACY: { score, max },
@@ -14,13 +12,24 @@ import questionnaireDefinition from "./questionnaire.definition.js";
 export const scoreSignals = (answers) => {
   const rawSignals = {};
 
-  // Initialize signal buckets
+  // Initialize buckets with correct max
   questionnaireDefinition.forEach((q) => {
     if (!rawSignals[q.section]) {
       rawSignals[q.section] = { score: 0, max: 0 };
     }
 
-    rawSignals[q.section].max += 1;
+    // MCQ max = 1
+    if (q.type === "mcq") {
+      rawSignals[q.section].max += 1;
+    }
+
+    // Scenario / preference max = highest option score
+    if (q.type === "preference" || q.type === "scenario") {
+      const maxOptionScore = Math.max(
+        ...q.options.map((o) => o.score)
+      );
+      rawSignals[q.section].max += maxOptionScore;
+    }
   });
 
   // Score answers
@@ -36,7 +45,7 @@ export const scoreSignals = (answers) => {
 
     if (q.type === "preference" || q.type === "scenario") {
       const selected = q.options[userAnswer];
-      if (selected?.score !== undefined) {
+      if (selected && typeof selected.score === "number") {
         rawSignals[q.section].score += selected.score;
       }
     }
