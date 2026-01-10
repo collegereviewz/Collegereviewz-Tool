@@ -12,8 +12,8 @@ const STREAM_PRIORITY = {
   ],
 
   Commerce: [
-    "FINANCE_COMMERCE",
     "MANAGEMENT_BUSINESS",
+    "FINANCE_COMMERCE",
     "ENTREPRENEURSHIP_STARTUP",
     "HOSPITALITY_HOTEL"
   ],
@@ -56,60 +56,48 @@ const computeGlobalScore = (s) => {
 };
 
 /* ───────────────── HARD SUBJECT GATES ───────────────── */
-/**
- * ABSOLUTE GATES — cannot be bypassed
- */
+
 const SUBJECT_GATES = {
   ENGINEERING_TECH: (s) =>
-    isNumber(s.NUMERACY) && isNumber(s.COGNITIVE) &&
     s.NUMERACY >= 55 && s.COGNITIVE >= 55,
 
   MEDICAL_HEALTH: (s) =>
-    isNumber(s.ACADEMIC) && isNumber(s.DISCIPLINE) &&
     s.ACADEMIC >= 60 && s.DISCIPLINE >= 60,
 
   SCIENCE_RESEARCH: (s) =>
-    isNumber(s.ACADEMIC) && isNumber(s.COGNITIVE) &&
     s.ACADEMIC >= 70 && s.COGNITIVE >= 65,
 
   ARMED_FORCES: (s) =>
-    isNumber(s.DISCIPLINE) && isNumber(s.RISK) &&
     s.DISCIPLINE >= 75 && s.RISK >= 70,
 
   AVIATION_MAINTENANCE: (s) =>
-    isNumber(s.DISCIPLINE) && isNumber(s.RISK) &&
     s.DISCIPLINE >= 75 && s.RISK >= 65,
 
   FINANCE_COMMERCE: (s) =>
-    isNumber(s.NUMERACY) && isNumber(s.DISCIPLINE) &&
     s.NUMERACY >= 70 && s.DISCIPLINE >= 65,
 
+  // ✅ FIXED MANAGEMENT GATE
   MANAGEMENT_BUSINESS: (s) =>
     isNumber(s.VERBAL) && isNumber(s.COGNITIVE) &&
-    s.VERBAL >= 60 && s.COGNITIVE >= 60,
+    (s.VERBAL + s.COGNITIVE) / 2 >= 62,
 
   ENTREPRENEURSHIP_STARTUP: (s) =>
-    isNumber(s.RISK) && isNumber(s.COGNITIVE) && isNumber(s.INTEREST) &&
     s.RISK >= 70 && s.COGNITIVE >= 60 && s.INTEREST >= 65,
 
   HUMANITIES_SOCIAL: (s) =>
-    isNumber(s.VERBAL) && isNumber(s.INTEREST) &&
     s.VERBAL >= 65 && s.INTEREST >= 70,
 
   CREATIVE_MEDIA: (s) =>
-    isNumber(s.INTEREST) && s.INTEREST >= 65,
+    s.INTEREST >= 65,
 
   EDUCATION_TEACHING: (s) =>
-    isNumber(s.VERBAL) && isNumber(s.DISCIPLINE) &&
     s.VERBAL >= 70 && s.DISCIPLINE >= 60,
 
   LAW_LEGAL: (s) =>
-    isNumber(s.VERBAL) && isNumber(s.COGNITIVE) &&
     s.VERBAL >= 75 && s.COGNITIVE >= 65,
 
   HOSPITALITY_HOTEL: (s) =>
-    isNumber(s.INTEREST) && isNumber(s.DISCIPLINE) &&
-    s.INTEREST >= 55 && s.DISCIPLINE >= 40
+    s.DISCIPLINE >= 55
 };
 
 /* ───────────────── CCS ───────────────── */
@@ -145,24 +133,24 @@ export const assessCareers = ({
   const globalScore = computeGlobalScore(normalizedSignals);
 
   for (const career of careerList) {
-    /* STREAM BLOCK */
     if (
       career.allowedStreams &&
       !career.allowedStreams.includes("Any") &&
       !career.allowedStreams.includes(studentStream)
     ) continue;
 
-    /* HARD GATE */
     if (SUBJECT_GATES[career.id]) {
-      const pass = SUBJECT_GATES[career.id](normalizedSignals);
-      if (pass !== true) continue;
+      if (!SUBJECT_GATES[career.id](normalizedSignals)) continue;
     }
 
-    /* COMPATIBILITY */
     let ccs = computeCCS(normalizedSignals, career);
     if (ccs === 0) continue;
 
-    /* SECONDARY PENALTY */
+    // 🔥 BOOST MANAGEMENT SLIGHTLY
+    if (career.id === "MANAGEMENT_BUSINESS") {
+      ccs *= 1.1;
+    }
+
     if (!primary.includes(career.id)) {
       ccs *= 0.7;
     }
@@ -178,22 +166,24 @@ export const assessCareers = ({
     });
   }
 
-  /* SAFETY NET */
-  if (results.length < 2 && primary.length) {
-    primary.forEach((id, i) => {
-      if (!results.find(r => r.careerId === id)) {
-        results.push({
-          careerId: id,
-          tier: "RED",
-          compatibilityScore: 55 - i * 5
-        });
-      }
-    });
-  }
+  /* SAFETY NET — ENSURE REPRESENTATION */
+if (results.length < 3 && primary.length) {
+  primary.forEach((id) => {
+    if (!results.find(r => r.careerId === id)) {
+      results.push({
+        careerId: id,
+        tier: "RED",
+        compatibilityScore: 50
+      });
+    }
+  });
+}
 
   return {
     blocked: false,
     globalScore,
-    careers: results.sort((a, b) => b.compatibilityScore - a.compatibilityScore)
+    careers: results.sort(
+      (a, b) => b.compatibilityScore - a.compatibilityScore
+    )
   };
 };

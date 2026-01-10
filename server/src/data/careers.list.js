@@ -143,6 +143,38 @@ const careers = [
     minSignals: { RISK: 70, COGNITIVE: 60, INTEREST: 65 }
   },
 
+  /* ───────────────── HOSPITALITY & HOTEL MANAGEMENT ───────────────── */
+  {
+    id: "HOSPITALITY_HOTEL",
+    name: "Hospitality & Hotel Management",
+    category: "Service Industry",
+    allowedStreams: ["Arts","Commerce","Science"],
+    durationYears: "3–4",
+    costLevel: "MEDIUM",
+    roles: [
+      "Hotel Manager",
+      "Front Office Manager",
+      "Food & Beverage Manager",
+      "Event Manager",
+      "Resort Operations Manager",
+      "Cruise Line Executive",
+      "Guest Relations Manager",
+      "Luxury Hospitality Consultant"
+    ],
+    rolesAbroad: [
+      "International Hotel Manager",
+      "Cruise Operations Executive",
+      "Resort Director",
+      "Luxury Brand Hospitality Manager"
+    ],
+    exams: ["NCHMCT JEE","IIHM eCHAT","State HM Entrance Exams"],
+    feesIndia: "₹2L – ₹8L",
+    feesAbroad: "$40k – $120k",
+    salaryIndia: "₹3 – ₹15+ LPA",
+    salaryAbroad: "$40k – $120k",
+    minSignals: { DISCIPLINE: 55, INTEREST: 55 }
+  },
+
   /* ───────────────── EDUCATION & TEACHING ───────────────── */
   {
     id: "EDUCATION_TEACHING",
