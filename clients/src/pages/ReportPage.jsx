@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 
-/* ✅ ENV-AWARE BASE URL (THIS FIXES THE BUG) */
+/* ✅ ENV-AWARE BASE URL */
 const BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
 
@@ -11,7 +11,6 @@ const ReportPage = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  /* ---------------- THEME STATE ---------------- */
   const [theme, setTheme] = useState("dark");
   const [isMobile, setIsMobile] = useState(false);
 
@@ -22,10 +21,8 @@ const ReportPage = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  /* ---------------- ROOT GRADIENT ---------------- */
   useEffect(() => {
     const root = document.getElementById("root");
-
     root.style.minHeight = "100vh";
     root.style.transition = "background 0.9s ease-in-out";
     root.style.background =
@@ -34,7 +31,6 @@ const ReportPage = () => {
         : "radial-gradient(circle at bottom left, #e0f2fe 0%, #f8fafc 55%, #ffffff 100%)";
   }, [theme]);
 
-  /* ---------------- SAFETY ---------------- */
   if (!state || !state.reportPath) {
     return (
       <div style={{ padding: 20 }}>
@@ -44,20 +40,15 @@ const ReportPage = () => {
     );
   }
 
-  /* ✅ FINAL PDF URL (LOCAL + PRODUCTION SAFE) */
   const reportUrl = `${BASE_URL}/${state.reportPath}`;
 
   return (
     <div style={styles.page}>
-      {/* ---------------- HEADER ---------------- */}
+      {/* HEADER */}
       <div style={styles.header}>
         <div style={styles.brand}>
           <img src={logo} alt="CollegeReviewZ Logo" style={{ width: 42, height: 42 }} />
-          <h1
-            style={{
-              color: theme === "dark" ? "#e5e7eb" : "#000"
-            }}
-          >
+          <h1 style={{ color: theme === "dark" ? "#e5e7eb" : "#000" }}>
             CollegeReview
             <span style={{ color: theme === "dark" ? "#6366f1" : "#dc2626" }}>
               Z
@@ -80,11 +71,13 @@ const ReportPage = () => {
             color: theme === "dark" ? "#fff" : "#111",
           }}
         >
-          {theme === "dark" ? (isMobile ? "🌙" : "🌙 Dark Mode") : isMobile ? "☀" : "☀ Light Mode"}
+          {theme === "dark"
+            ? isMobile ? "🌙" : "🌙 Dark Mode"
+            : isMobile ? "☀" : "☀ Light Mode"}
         </motion.button>
       </div>
 
-      {/* ---------------- CARD ---------------- */}
+      {/* CARD */}
       <motion.div
         initial="hidden"
         animate="visible"
@@ -97,6 +90,7 @@ const ReportPage = () => {
           color: theme === "dark" ? "#e5e7eb" : "#020617"
         }}
       >
+        {/* ✅ WATERMARK FIXED */}
         <div style={styles.cardWatermark}>CollegeReviewZ</div>
 
         <motion.div
@@ -113,7 +107,7 @@ const ReportPage = () => {
           Your Career Report PDF has been generated successfully.
         </motion.p>
 
-        {/* ✅ FIXED DOWNLOAD LINK */}
+        {/* ✅ BUTTONS NOW CLICKABLE */}
         <motion.a
           variants={itemVariants}
           href={reportUrl}
@@ -133,7 +127,6 @@ const ReportPage = () => {
         </motion.button>
       </motion.div>
 
-      {/* ---------------- FOOTER ---------------- */}
       <footer
         style={{
           ...styles.footer,
@@ -151,17 +144,80 @@ export default ReportPage;
 /* ---------------- STYLES ---------------- */
 
 const styles = {
-  page: { minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" },
-  header: { position: "absolute", top: 20, left: 20, right: 20, display: "flex", justifyContent: "space-between" },
+  page: {
+    minHeight: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
+  header: {
+    position: "absolute",
+    top: 20,
+    left: 20,
+    right: 20,
+    display: "flex",
+    justifyContent: "space-between",
+    zIndex: 10
+  },
+
   brand: { display: "flex", alignItems: "center", gap: 10 },
-  modeToggle: { border: "none", cursor: "pointer", fontWeight: 600 },
-  card: { padding: "50px 40px", borderRadius: 18, maxWidth: 520, width: "90%", textAlign: "center" },
-  cardWatermark: { position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 72, opacity: 0.05, transform: "rotate(-35deg)" },
+
+  modeToggle: {
+    border: "none",
+    cursor: "pointer",
+    fontWeight: 600
+  },
+
+  card: {
+    position: "relative",
+    padding: "50px 40px",
+    borderRadius: 18,
+    maxWidth: 520,
+    width: "90%",
+    textAlign: "center",
+    zIndex: 2
+  },
+
+  /* 🔥 CRITICAL FIX */
+  cardWatermark: {
+    position: "absolute",
+    inset: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 72,
+    fontWeight: 800,
+    opacity: 0.05,
+    transform: "rotate(-35deg)",
+    pointerEvents: "none",   // ✅ THIS FIXES EVERYTHING
+    userSelect: "none",
+    zIndex: 0
+  },
+
   check: { fontSize: 64, color: "#22c55e", marginBottom: 20 },
-  button: { marginTop: 18, padding: "14px 28px", fontSize: 16, borderRadius: 8, cursor: "pointer", textDecoration: "none" },
+
+  button: {
+    marginTop: 18,
+    padding: "14px 28px",
+    fontSize: 16,
+    borderRadius: 8,
+    cursor: "pointer",
+    textDecoration: "none",
+    zIndex: 5,
+    position: "relative"
+  },
+
   green: { background: "#16a34a", color: "#fff" },
   blue: { background: "#2563eb", color: "#fff" },
-  footer: { position: "absolute", bottom: 16, fontSize: 14, opacity: 0.6 }
+
+  footer: {
+    position: "absolute",
+    bottom: 16,
+    fontSize: 14,
+    opacity: 0.6,
+    zIndex: 10
+  }
 };
 
 /* ---------------- ANIMATIONS ---------------- */
