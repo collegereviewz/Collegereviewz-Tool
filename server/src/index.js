@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "clients/build")));
   
     app.get("/*splat", (req, res) => {
-      res.sendFile(path.join(__dirname, "clients/build/index.html"));
+      res.sendFile(path.join(__dirname, "clients/build", "index.html"));
     });
 }
 
