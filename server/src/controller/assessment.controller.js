@@ -84,6 +84,13 @@ export const runAssessment = async (req, res) => {
       signals: toModelSignals(normalizedSignals, profileData),
       careers: enrichedCareers
     });
+    // 🔥 ADD THIS BLOCK HERE
+    const baseUrl =
+      process.env.NODE_ENV === "production"
+        ? process.env.BASE_URL
+        : "http://localhost:5000";
+
+    const reportUrl = `${baseUrl}/reports/career-report-${studentId}.pdf`;
 
     res.json({ success: true, reportPath });
 
