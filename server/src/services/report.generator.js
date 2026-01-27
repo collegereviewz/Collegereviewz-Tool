@@ -64,6 +64,8 @@ const CAREER_ICONS = {
   default: path.join(process.cwd(), "src/assets/icons/career.png"),
 };
 
+//***Anish_26.01.2026_4:13PM****//
+//*****************************************************************************************8 */
 /* ───────────────── SECTION ICONS ───────────────── */
 const SECTION_ICONS = {
   careerIndia: path.join(process.cwd(), "src/assets/icons/india-flag.png"),
@@ -74,6 +76,42 @@ const SECTION_ICONS = {
   roadmap: path.join(process.cwd(), "src/assets/icons/roadmap.png"),
 };
 
+/* ───────────────── PERSONALITY PAGE ICONS ───────────────── */
+const PERSONALITY_HEADER_ICON = path.join(process.cwd(), "src/assets/icons/personality.png");
+
+const PERSONALITY_SECTION_ICONS = {
+  COGNITIVE: path.join(process.cwd(), "src/assets/icons/cognitive.png"),
+  NUMERACY: path.join(process.cwd(), "src/assets/icons/numeracy.png"),
+  ACADEMIC: path.join(process.cwd(), "src/assets/icons/academic.png"),
+  VERBAL: path.join(process.cwd(), "src/assets/icons/verbal.png"),
+  INTEREST: path.join(process.cwd(), "src/assets/icons/interest.png"),
+  DISCIPLINE: path.join(process.cwd(), "src/assets/icons/discipline.png"),
+  RISK: path.join(process.cwd(), "src/assets/icons/risk.png"),
+  FINANCE: path.join(process.cwd(), "src/assets/icons/finance-personality.png"),
+};
+
+//******************************************************************************************** */
+/* ───────────────── SECTION ICONS ───────────────── */
+/*const SECTION_ICONS = {
+  careerIndia: path.join(process.cwd(), "src/assets/icons/india-flag.png"),
+  careerAbroad: path.join(process.cwd(), "src/assets/icons/globe.png"),
+  fees: path.join(process.cwd(), "src/assets/icons/fees.png"),
+  salary: path.join(process.cwd(), "src/assets/icons/salary.png"),
+  institutes: path.join(process.cwd(), "src/assets/icons/institutes.png"),
+  roadmap: path.join(process.cwd(), "src/assets/icons/roadmap.png"),
+};*/
+
+//Anish_24.01.2026_3:41PM
+
+///******************************************************************************************* */
+/* ───────────────── INNER CARD ICONS ───────────────── */
+const INNER_CARD_ICONS = {
+  meaning: path.join(process.cwd(), "src/assets/icons/meaning.png"),
+  analysis: path.join(process.cwd(), "src/assets/icons/analysis.png"),
+  developmentplan: path.join(process.cwd(), "src/assets/icons/developmentplan.png"),
+  actionplan: path.join(process.cwd(), "src/assets/icons/actionplan.png"),
+};
+//******************************************************************************************** */
 /* ───────────────── CAREER CATEGORY CONFIG ───────────────── */
 const CAREER_CATEGORIES = {
   medical: {
@@ -224,11 +262,24 @@ const TIER_CONFIG = {
 };
 
 /* ───────────────── APTITUDE LEGEND LABELS ───────────────── */
-const APTITUDE_LEGEND = {
+/*const APTITUDE_LEGEND = {
   red: { label: "Needs Work", color: "#EF4444", range: "0-39" },
   yellow: { label: "Developing", color: "#F59E0B", range: "40-69" },
   green: { label: "Good", color: "#16A34A", range: "70-100" }
+};*/
+
+
+
+
+//Anish_24.01.2026_1:55 PM//
+//********************************************************* */
+/* ───────────────── APTITUDE LEGEND LABELS ───────────────── */
+const APTITUDE_LEGEND = {
+  red: { label: "Needs Work (0-39%)", color: "#EF4444", range: "0-39" },
+  yellow: { label: "Developing (40-69%)", color: "#F59E0B", range: "40-69" },
+  green: { label: "Good (70-100%)", color: "#16A34A", range: "70-100" }
 };
+//************************************************************* */
 
 /* ───────────────── CAREER CATEGORY DETECTION ───────────────── */
 const getCareerCategory = (careerName) => {
@@ -982,7 +1033,7 @@ const drawDepartmentHeader = (doc, careerName, x, y, boxWidth, tierColor) => {
 };
 
 /* ───────────────── APTITUDE LEGEND ───────────────── */
-const drawAptitudeLegend = (doc, x, y, width) => {
+/*const drawAptitudeLegend = (doc, x, y, width) => {
   doc.save();
   
   const legendHeight = 24;
@@ -1029,7 +1080,70 @@ const drawAptitudeLegend = (doc, x, y, width) => {
   doc.restore();
   
   return legendHeight;
+};*/
+
+
+//Anish_24.01.2026_1:58PM//
+// ****************************************************/
+const drawAptitudeLegend = (doc, x, y, width) => {
+  doc.save();
+  
+  const legendHeight = 38; // Increased from 24 to fit descriptions
+  const boxWidth = (width - 20) / 3;
+  
+  doc.roundedRect(x, y, width, legendHeight, 6)
+     .fillColor("#F9FAFB")
+     .fill();
+  
+  doc.roundedRect(x, y, width, legendHeight, 6)
+     .lineWidth(0.5)
+     .strokeColor(CARD_BORDER)
+     .stroke();
+  
+  const items = [
+    { color: APTITUDE_LEGEND.red.color, label: APTITUDE_LEGEND.red.label, desc: "Score 0-39% - Needs improvement" },
+    { color: APTITUDE_LEGEND.yellow.color, label: APTITUDE_LEGEND.yellow.label, desc: "Score 40-69% - Progressing" },
+    { color: APTITUDE_LEGEND.green.color, label: APTITUDE_LEGEND.green.label, desc: "Score 70-100% - Strong readiness" }
+  ];
+  
+  items.forEach((item, index) => {
+    const itemX = x + 10 + (boxWidth * index);
+    const dotY = y + 12;
+    
+    doc.circle(itemX + 6, dotY, 5)
+       .fillColor(item.color)
+       .fill();
+    
+    doc.circle(itemX + 5, dotY - 1, 2)
+       .fillOpacity(0.3)
+       .fillColor("#FFFFFF")
+       .fill();
+    
+    doc.fillOpacity(1);
+    
+    // Label
+    doc.fontSize(7).font("Helvetica-Bold").fillColor(TEXT_MAIN);
+    doc.text(item.label, itemX + 16, y + 8, {
+      width: boxWidth - 20,
+      align: "left",
+      lineBreak: false
+    });
+    
+    // Description below
+    doc.fontSize(5.5).font("Helvetica").fillColor(TEXT_MUTED);
+    doc.text(item.desc, itemX + 16, y + 20, {
+      width: boxWidth - 20,
+      align: "left",
+      lineBreak: false
+    });
+  });
+  
+  doc.restore();
+  
+  return legendHeight;
 };
+/********************************************************************************************** */
+
 
 /* ───────────────── TIER SCALE LEGEND ───────────────── */
 const drawTierScale = (doc, y, margins, width) => {
@@ -1349,11 +1463,11 @@ export const generateAssessmentReport = ({
   const detailLineHeight = 22;
   const details = [
     { label: "Name", value: studentProfile.name },
-    { label: "Email", value: studentProfile.email || "Not provided" }, // EMAIL ADDED HERE
+    { label: "Email", value: studentProfile.email || "Not provided"}, // EMAIL ADDED HERE
     { label: "Class", value: studentProfile.currentClass },
     { label: "Stream", value: studentProfile.stream },
     { label: "Family Budget", value: studentProfile.familyAnnualBudget }
-  ];
+  ]; 
 
   details.forEach((detail, index) => {
     const detailY = contentY + (index * detailLineHeight);
@@ -1482,88 +1596,607 @@ export const generateAssessmentReport = ({
        { width: fwCardW - 84, align: "center" }
      );
 
-  /* ═════════ PAGE 4: APTITUDE SNAPSHOT ═════════ */
-  addNewPage(doc, margins, width, height, photoPath);
+/* ═════════ PAGE 4: APTITUDE SNAPSHOT ═════════ */
+addNewPage(doc, margins, width, height, photoPath);
 
-  const aptCardW = width - margins.left - margins.right;
-  const aptCardX = margins.left;
-  const aptCardY = CONTENT_START_Y;
-  const aptCardH = 280;
+const aptCardW = width - margins.left - margins.right;
+const aptCardX = margins.left;
+const aptCardY = CONTENT_START_Y;
+const aptCardH = 450;
 
-  drawGlossyCard(doc, aptCardX, aptCardY, aptCardW, aptCardH, 8, PRIMARY);
+drawGlossyCard(doc, aptCardX, aptCardY, aptCardW, aptCardH, 12, PRIMARY);
 
-  doc.x = aptCardX + 20;
-  doc.y = aptCardY + 18;
+doc.x = aptCardX + 25;
+doc.y = aptCardY + 20;
 
-  doc.fontSize(12).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
-     .text("Your Aptitude Snapshot");
+doc.fontSize(14).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
+  .text("Your Aptitude Snapshot");
 
-  doc.moveDown(0.2);
-  doc.fontSize(7).font("Helvetica").fillColor(TEXT_MUTED)
-     .text(
-       "Higher scores indicate stronger readiness in that area. Use this snapshot with your counsellor to decide focus areas."
-     );
+doc.moveDown(0.3);
+doc.fontSize(8).font("Helvetica").fillColor(TEXT_MUTED)
+  .text("Higher scores indicate stronger readiness. Use these recommendations with your counsellor.");
 
-  doc.y += 8;
-  const legendHeight = drawAptitudeLegend(doc, aptCardX + 20, doc.y, aptCardW - 40);
-  doc.y += legendHeight + 12;
+doc.y += 20;
 
-  const blockWidth = aptCardW - 40;
-  const labelWidth = 140;
-  const gapWidth = 12;
-  const barWidth = blockWidth - labelWidth - gapWidth;
-  const startX = aptCardX + 20;
+// Three separate recommendation cards - FIXED COLORS
+const cardWidth = (aptCardW - 60) / 3;
+const cardHeight = 100;
+const cardStartY = doc.y + 10;
 
-  Object.entries(signals).forEach(([key, value]) => {
-    const score = parseFloat(value || 0);
-    const barLength = Math.max(0, Math.min(1, score / 100)) * barWidth;
-    const currentY = doc.y;
+const recommendations = [
+  {
+    title: "Needs Work (0-39%)",
+    bgColor: "#FEE2E2",      // Light red (more visible)
+    accentColor: "#FECACA",  // Slightly darker red accent
+    dotColor: "#EF4444",     // Bold red dot
+    borderColor: "#FCA5A5",  // Red border
+    actions: [
+      "Start with fundamentals and step-by-step learning",
+      "Use guided practice and mentoring",
+      "Short, regular study sessions",
+      "Track small improvements weekly"
+    ]
+  },
+  {
+    title: "Developing (40-69%)",
+    bgColor: "#FEF3C7",      // Light yellow (more visible)
+    accentColor: "#FDE68A",  // Slightly darker yellow accent
+    dotColor: "#F59E0B",     // Bold yellow dot
+    borderColor: "#FCD34D",  // Yellow border
+    actions: [
+      "Regular practice with feedback",
+      "Mixed-difficulty exercises", 
+      "Timed mock tests",
+      "Review mistakes and patterns"
+    ]
+  },
+  {
+    title: "Good (70–100%)",
+    bgColor: "#D1FAE5",      // Light green (more visible)
+    accentColor: "#A7F3D0",  // Slightly darker green accent
+    dotColor: "#16A34A",     // Bold green dot
+    borderColor: "#86EFAC",  // Green border
+    actions: [
+      "Advanced practice and simulations",
+      "Competitive tests or projects",
+      "Peer mentoring or leadership roles",
+      "Align this strength with career goals"
+    ]
+  }
+];
 
-    doc.fontSize(8).font("Helvetica-Bold").fillColor(TEXT_MAIN)
-       .text(`${key.toUpperCase()}`, startX, currentY, {
-         width: labelWidth,
-         align: "left",
-       });
+recommendations.forEach((rec, index) => {
+  const cardX = aptCardX + 25 + index * (cardWidth + 15);
+  
+  // Card shadow (more visible)
+  doc.roundedRect(cardX + 3, cardStartY + 3, cardWidth, cardHeight, 10)
+    .fillOpacity(0.12).fillColor("#000000").fill();
+  
+  // Main card background - NOW VISIBLE
+  doc.roundedRect(cardX, cardStartY, cardWidth, cardHeight, 10)
+    .fillColor(rec.bgColor).fill();
+  
+  // Inner white layer for contrast
+  doc.roundedRect(cardX + 1.5, cardStartY + 1.5, cardWidth - 3, cardHeight - 3, 8.5)
+    .fillColor("#FFFFFF").fillOpacity(0.92).fill();
+  
+  // Colored dot - MORE PROMINENT
+  doc.circle(cardX + 16, cardStartY + 24, 8)
+    .fillColor(rec.dotColor).fillOpacity(1).fill();
+  doc.circle(cardX + 14, cardStartY + 22, 4)
+    .fillOpacity(0.5).fillColor("#FFFFFF").fill();
+  
+  // Title - darker for better contrast
+  doc.fontSize(9).font("Helvetica-Bold").fillColor("#1E3A5F")
+    .text(rec.title, cardX + 34, cardStartY + 16, { width: cardWidth - 45 });
+  
+  // Recommended Actions header - bold blue
+  doc.fontSize(7.5).font("Helvetica-Bold").fillColor("#1E40AF")
+    .text("Recommended Actions:", cardX + 34, cardStartY + 34, { width: cardWidth - 45 });
+  
+  // Action bullets - better contrast
+  doc.fontSize(6.2).font("Helvetica").fillColor("#1E293B").lineGap(1);
+  rec.actions.forEach((action, actionIdx) => {
+    const actionY = cardStartY + 47 + (actionIdx * 10);
+    doc.text(`• ${action}`, cardX + 34, actionY, { 
+      width: cardWidth - 50, 
+      lineGap: 1,
+      height: 10
+    });
+  });
+  
+  // VISIBLE COLORED BORDER
+  doc.roundedRect(cardX, cardStartY, cardWidth, cardHeight, 10)
+    .lineWidth(1.2).strokeColor(rec.borderColor).strokeOpacity(0.8).stroke();
+  
+  // Top accent line - MORE VISIBLE
+  doc.roundedRect(cardX + 1, cardStartY + 1, cardWidth - 2, 4, 10)
+    .fillColor(rec.accentColor).fillOpacity(1).fill();
+  
+  doc.fillOpacity(1).strokeOpacity(1);
+});
 
-    doc.fontSize(7).font("Helvetica").fillColor(TEXT_MUTED)
-       .text(`${value}/100`, startX, currentY + 9, {
-         width: labelWidth,
-         align: "left",
-       });
+doc.y = cardStartY + cardHeight + 30;
 
-    const barX = startX + labelWidth + gapWidth;
-    const barY = currentY + 4;
+// Aptitude bars below (unchanged)
+const blockWidth = aptCardW - 50;
+const labelWidth = 150;
+const gapWidth = 15;
+const barWidth = blockWidth - labelWidth - gapWidth;
+const startX = aptCardX + 25;
 
-    doc.roundedRect(barX, barY, barWidth, 8, 4)
-       .fillColor("#E5E7EB")
-       .fill();
+Object.entries(signals).forEach(([key, value]) => {
+  const score = parseFloat(value || 0);
+  const barLength = Math.max(0, Math.min(1, score / 100)) * barWidth;
+  const currentY = doc.y;
 
-    let barColor = "#16A34A";
-    if (score < 70) barColor = "#F59E0B";
-    if (score < 40) barColor = "#EF4444";
+  doc.fontSize(8.5).font("Helvetica-Bold").fillColor(TEXT_MAIN)
+    .text(`${key.toUpperCase()}`, startX, currentY, {
+      width: labelWidth,
+      align: "left",
+    });
 
-    doc.roundedRect(barX, barY, barLength, 8, 4)
-       .fillColor(barColor)
-       .fill();
+  doc.fontSize(7.5).font("Helvetica").fillColor(TEXT_MUTED)
+    .text(`${value}/100`, startX, currentY + 10, {
+      width: labelWidth,
+      align: "left",
+    });
+
+  const barX = startX + labelWidth + gapWidth;
+  const barY = currentY + 6;
+
+  doc.roundedRect(barX, barY, barWidth, 10, 5)
+    .fillColor("#E5E7EB")
+    .fill();
+
+  let barColor = "#16A34A";
+  if (score < 70) barColor = "#F59E0B";
+  if (score < 40) barColor = "#EF4444";
+
+  doc.roundedRect(barX, barY, barLength, 10, 5)
+    .fillColor(barColor)
+    .fill();
+  
+  if (barLength > 12) {
+    doc.roundedRect(barX, barY, barLength, 4, 5)
+      .fillOpacity(0.3)
+      .fillColor("#FFFFFF")
+      .fill();
+    doc.fillOpacity(1);
+  }
+
+  if (barLength > 25) {
+    doc.fontSize(6.5).font("Helvetica-Bold").fillColor("#FFFFFF")
+      .text(`${Math.round(score)}%`, barX + barLength - 25, barY + 2, {
+        width: 22,
+        align: "center",
+      });
+  }
+
+  doc.y = currentY + 28;
+});
+
+//******************************************************************************************************* */
+
+//Anish_27.01.2026_02:41PM
+//********************************************************************************/
+/* ═════════ PAGE 5: GLOBAL SCORE EXPLANATION (GLOBE ABOVE TITLE) ═════════ */
+addNewPage(doc, margins, width, height, photoPath);
+
+const pageW = width - margins.left - margins.right;
+const pageX = margins.left;
+const pageY = CONTENT_START_Y;
+const pageH = 550;
+
+drawGlossyCard(doc, pageX, pageY, pageW, pageH, 12, PRIMARY);
+
+// 1️⃣ GLOBE PNG FIRST (CENTERED ABOVE TITLE)
+let currentY = pageY + 25;
+
+// Globe PNG - CENTERED above title
+doc.image(path.join(process.cwd(), 'src/assets/icons/globe.png'), 
+  pageX + pageW/2 - 8, currentY, { width: 20, height: 20 });
+
+currentY += 28;  // Space after globe
+
+// Title starts AFTER globe
+doc.fontSize(15).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
+  .text("What is the Global Score?", pageX + 30, currentY, { 
+    width: pageW - 60, align: "center" 
+  });
+currentY += 38;
+
+// 2️⃣ DEFINITION (Clean paragraphs)
+doc.fontSize(8.5).font("Helvetica").fillColor(TEXT_MAIN)
+  .text("Global Score shows how well your aptitude, interests, academic readiness, financial comfort,", 
+    pageX + 35, currentY, { width: pageW - 70 });
+currentY += 13;
+doc.text("and risk profile align with today's career opportunities.", 
+    pageX + 35, currentY, { width: pageW - 70 });
+currentY += 25;
+doc.fontSize(7.8).font("Helvetica").fillColor(TEXT_MUTED)
+  .text("Not marks, not IQ, not destiny - its your career readiness index", 
+    pageX + 35, currentY, { width: pageW - 70 });
+currentY += 35;
+
+// 3️⃣ FACTORS TABLE WITH SETTINGS PNG
+doc.image(path.join(process.cwd(), 'src/assets/icons/settings.png'), pageX + 18, currentY - 6, {
+  width: 16, height: 16
+});
+doc.fontSize(11).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
+  .text("What Factors Make Your Global Score?", pageX + 40, currentY);
+currentY += 35;
+
+const tableX = pageX + 30;
+const tableW = pageW - 60;
+const tableH = 120;
+doc.roundedRect(tableX, currentY, tableW, tableH, 8)
+  .fillColor("#F8FAFC").fillOpacity(0.9).fill()
+  .lineWidth(1).strokeColor("#CBD5E1").stroke();
+
+// Table header
+doc.roundedRect(tableX + 5, currentY + 5, tableW - 10, 13, 4)
+  .fillColor("#E2E8F0").fill();
+doc.fontSize(7).font("Helvetica-Bold").fillColor("#1E40AF")
+  .text("Component", tableX + 15, currentY + 9, { width: 95 })
+  .text("Measures", tableX + 115, currentY + 9, { width: 105 })
+  .text("Why Important", tableX + 225, currentY + 9, { width: 105 });
+
+currentY += 30;
+const factors = [
+  ["Cognitive", "Problem-solving", "Most careers foundation"],
+  ["Numeracy", "Math/logic skills", "Tech, finance, science"],
+  ["Academic", "Study discipline", "Education success"],
+  ["Verbal", "Communication", "Leadership essential"],
+  ["Interest", "Your passions", "Prevents burnout"],
+  ["Discipline", "Consistency", "Long-term success"],
+  ["Risk", "Uncertainty comfort", "Career choice fit"],
+  ["Finance", "Budget readiness", "Feasible pathways"]
+];
+
+factors.forEach((row, i) => {
+  const rowY = currentY + (i * 11);
+  doc.fontSize(6.3).font("Helvetica").fillColor("#374151")
+    .text(row[0], tableX + 15, rowY, { width: 95 })
+    .text(row[1], tableX + 115, rowY, { width: 105 })
+    .text(row[2], tableX + 225, rowY, { width: 105 });
+});
+currentY += 115;
+
+// 4️⃣ INTERPRETATION TABLE WITH CHART PNG
+doc.image(path.join(process.cwd(), 'src/assets/icons/chart.png'), pageX + 18, currentY - 6, {
+  width: 16, height: 16
+});
+doc.fontSize(11).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
+  .text("How to Read Your Global Score", pageX + 40, currentY);
+currentY += 22;
+
+const scoreTableX = pageX + 30;
+const scoreTableW = pageW - 60;
+const scoreTableH = 80;
+doc.roundedRect(scoreTableX, currentY, scoreTableW, scoreTableH, 8)
+  .fillColor("#F0F9FF").fill()
+  .lineWidth(1).strokeColor("#0EA5E9").stroke();
+
+const scores = [
+  ["85-100", "Excellent readiness - many career options"],
+  ["70-84", "Strong profile - multiple good paths"],
+  ["55-69", "Moderate - focus improvement"],
+  ["40-54", "Developing - needs guidance"],
+  ["<40", "Early stage - build foundations"]
+];
+
+scores.forEach((score, i) => {
+  const rowY = currentY + 10 + (i * 14);
+  doc.fontSize(7.5).font("Helvetica-Bold").fillColor("#0369A1")
+    .text(score[0], scoreTableX + 40, rowY, { width: 55 });
+  doc.fontSize(7).font("Helvetica").fillColor("#0C4A6E")
+    .text(score[1], scoreTableX + 105, rowY, { width: scoreTableW - 140 });
+});
+currentY += 85;
+
+// 5️⃣ IS NOT / IS WITH PNG ICONS
+const splitSectionY = currentY + 8;
+
+doc.image(path.join(process.cwd(), 'src/assets/icons/warning.png'), pageX + 16, splitSectionY - 6, {
+  width: 16, height: 16
+});
+doc.fontSize(10).font("Helvetica-Bold").fillColor("#DC2626")
+  .text("What Global Score is NOT", pageX + 40, splitSectionY);
+
+doc.image(path.join(process.cwd(), 'src/assets/icons/check.png'), pageX + pageW/2 + 1, splitSectionY - 6, {
+  width: 16, height: 16
+});
+doc.fontSize(10).font("Helvetica-Bold").fillColor("#059669")
+  .text("What Global Score IS", pageX + pageW/2 + 22, splitSectionY);
+
+currentY = splitSectionY + 22;
+
+const notItems = [
+  "Intelligence test",
+  "Future predictor", 
+  "Peer comparison",
+  "Career limiter"
+];
+notItems.forEach((item, i) => {
+  doc.fontSize(7).font("Helvetica").fillColor("#991B1B")
+    .text(item, pageX + 40, currentY + (i * 14), { width: pageW/2 - 60 });
+});
+
+const isItems = [
+  "Decision tool",
+  "Planning start point",
+  "Parent clarity guide",
+  "Wrong choice preventer"
+];
+isItems.forEach((item, i) => {
+  doc.fontSize(7).font("Helvetica").fillColor("#047857")
+    .text(item, pageX + pageW/2 + 15, currentY + (i * 14), { width: pageW/2 - 60 });
+});
+
+
+//************************************************************************************** */
+
+
+  //Anish_24.01.2026_3:04PM
+  //*************************************************************************************/
+    /* ═══════════════════════════════════════════════════════════════════════════
+     PERSONALITY DETAIL PAGES - 8 SECTIONS (ONE PER PAGE)
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  const PERSONALITY_SECTIONS = [
+    {
+      key: "COGNITIVE",
+      gradient: ["#3B82F6", "#2563EB", "#1D4ED8"],
+      bgColor: "#EFF6FF",
+      icon: "🧠",
+      imagePath: path.join(process.cwd(), "src/assets/personality/cognitive.jpg"),
+      meaning: "Cognitive ability refers to your mental capacity to learn, reason, solve problems, and think abstractly. It encompasses skills like memory, attention, perception, and logical thinking.",
+      expertAnalysis: "Your cognitive profile shows how you process information, recognize patterns, and apply knowledge to solve complex problems. Higher scores indicate stronger analytical thinking.",
+      developmentPlan: "• Practice brain-training exercises daily\n• Read diverse materials\n• Learn new skills or languages\n• Engage in strategic games like chess",
+      actionPlan: "• Set aside 30 minutes daily for cognitive exercises\n• Join discussion groups\n• Take online courses in logic and critical thinking"
+    },
+    {
+      key: "NUMERACY",
+      gradient: ["#10B981", "#059669", "#047857"],
+      bgColor: "#ECFDF5",
+      icon: "🔢",
+      imagePath: path.join(process.cwd(), "src/assets/personality/numeracy.jpg"),
+      meaning: "Numeracy is your ability to understand, reason with, and apply mathematical concepts in real-world situations including arithmetic, data interpretation, and quantitative problem-solving.",
+      expertAnalysis: "Your numeracy assessment reveals how comfortable you are with numbers and mathematical reasoning. This skill is crucial for data-driven decision making.",
+      developmentPlan: "• Practice mental math regularly\n• Work through math workbooks\n• Apply math to real-life situations\n• Study statistics and data interpretation",
+      actionPlan: "• Complete 10-15 math problems daily\n• Track expenses to practice budgeting\n• Learn to read graphs and charts"
+    },
+    {
+      key: "ACADEMIC",
+      gradient: ["#8B5CF6", "#7C3AED", "#6D28D9"],
+      bgColor: "#F5F3FF",
+      icon: "📚",
+      imagePath: path.join(process.cwd(), "src/assets/personality/academic.jpg"),
+      meaning: "Academic aptitude measures your capacity for formal learning, study skills, and educational achievement including reading comprehension, writing ability, and research skills.",
+      expertAnalysis: "Your academic profile reflects your learning habits, study techniques, and educational foundation. This predicts success in formal education settings.",
+      developmentPlan: "• Develop effective study schedules\n• Practice active reading and note-taking\n• Build vocabulary through reading\n• Improve writing skills",
+      actionPlan: "• Create a dedicated study space\n• Set specific academic goals\n• Join study groups\n• Seek feedback on assignments"
+    },
+    {
+      key: "VERBAL",
+      gradient: ["#F59E0B", "#D97706", "#B45309"],
+      bgColor: "#FFFBEB",
+      icon: "💬",
+      imagePath: path.join(process.cwd(), "src/assets/personality/verbal.jpg"),
+      meaning: "Verbal ability encompasses your skills in understanding, using, and manipulating language including vocabulary, reading comprehension, and communication skills.",
+      expertAnalysis: "Your verbal assessment shows proficiency in language-based tasks. This is crucial for careers in law, journalism, teaching, and business.",
+      developmentPlan: "• Read extensively across genres\n• Learn new words daily\n• Practice public speaking\n• Write regularly",
+      actionPlan: "• Read one book per month\n• Maintain a vocabulary journal\n• Join a speaking club\n• Practice explaining complex ideas simply"
+    },
+    {
+      key: "INTEREST",
+      gradient: ["#EC4899", "#DB2777", "#BE185D"],
+      bgColor: "#FDF2F8",
+      icon: "❤️",
+      imagePath: path.join(process.cwd(), "src/assets/personality/interest.jpg"),
+      meaning: "Interest patterns reflect your natural inclinations, passions, and areas of curiosity. Aligned interests lead to greater engagement and success in your chosen field.",
+      expertAnalysis: "Your interest profile reveals activities and work environments that naturally attract you. Careers aligned with interests feel less like work.",
+      developmentPlan: "• Explore diverse activities\n• Reflect on activities that engage you\n• Research aligned careers\n• Connect with professionals in fields of interest",
+      actionPlan: "• List top 5 interests and research careers\n• Spend time on passion projects\n• Attend workshops in areas of curiosity"
+    },
+    {
+      key: "DISCIPLINE",
+      gradient: ["#14B8A6", "#0D9488", "#0F766E"],
+      bgColor: "#F0FDFA",
+      icon: "⏰",
+      imagePath: path.join(process.cwd(), "src/assets/personality/discipline.jpg"),
+      meaning: "Discipline measures your ability to maintain focus, self-control, and consistent effort toward goals including time management and perseverance.",
+      expertAnalysis: "Your discipline assessment reveals capacity for self-regulation. This dimension is often more predictive of success than raw ability alone.",
+      developmentPlan: "• Establish daily routines\n• Break large goals into smaller tasks\n• Practice delayed gratification\n• Remove distractions",
+      actionPlan: "• Create a weekly schedule\n• Set SMART goals with deadlines\n• Use apps to track progress\n• Reflect weekly on successes"
+    },
+    {
+      key: "RISK",
+      gradient: ["#EF4444", "#DC2626", "#B91C1C"],
+      bgColor: "#FEF2F2",
+      icon: "⚡",
+      imagePath: path.join(process.cwd(), "src/assets/personality/risk.jpg"),
+      meaning: "Risk assessment measures your comfort with uncertainty, willingness to take chances, and ability to evaluate potential outcomes.",
+      expertAnalysis: "Your risk profile shows tendency toward caution or adventure. Understanding this helps make informed career and life choices.",
+      developmentPlan: "• Practice calculated risk-taking\n• Learn to evaluate risk vs reward\n• Study successful risk-takers\n• Build a safety net",
+      actionPlan: "• Identify one small risk to take this month\n• Create pro/con lists for decisions\n• Save an emergency fund"
+    },
+    {
+      key: "FINANCE",
+      gradient: ["#84CC16", "#65A30D", "#4D7C0F"],
+      bgColor: "#F7FEE7",
+      icon: "💰",
+      imagePath: path.join(process.cwd(), "src/assets/personality/finance.jpg"),
+      meaning: "Financial literacy measures understanding of money management, budgeting, saving, and investment concepts essential for personal security.",
+      expertAnalysis: "Your financial profile reflects current understanding of money management. Higher scores indicate better preparedness for managing finances.",
+      developmentPlan: "• Learn basic budgeting\n• Study compound interest and investments\n• Understand different income sources\n• Practice saving",
+      actionPlan: "• Create a personal budget\n• Open a savings account\n• Read one financial literacy book\n• Set short and long-term financial goals"
+    }
+  ];
+
+  // Draw each personality section on its own page
+  PERSONALITY_SECTIONS.forEach((section) => {
+    addNewPage(doc, margins, width, height, photoPath);
     
-    if (barLength > 10) {
-      doc.roundedRect(barX, barY, barLength, 3, 4)
-         .fillOpacity(0.25)
-         .fillColor("#FFFFFF")
-         .fill();
+    const pageCardW = width - margins.left - margins.right;
+    const pageCardX = margins.left;
+    const pageCardY = CONTENT_START_Y;
+    const pageCardH = height - CONTENT_START_Y - FOOTER_HEIGHT - 20;
+    
+    // Main card background
+    doc.save();
+    doc.roundedRect(pageCardX + 4, pageCardY + 4, pageCardW, pageCardH, 12).fillOpacity(0.06).fillColor("#000000").fill();
+    doc.roundedRect(pageCardX, pageCardY, pageCardW, pageCardH, 12).fillColor(CARD_BG_ULTRA_LIGHT).fill();
+    doc.roundedRect(pageCardX + 1, pageCardY + 1, pageCardW - 2, pageCardH - 2, 11).fillColor(CARD_BG).fill();
+    doc.roundedRect(pageCardX, pageCardY, pageCardW, pageCardH * 0.08, 12).fillOpacity(0.08).fillColor("#FFFFFF").fill();
+    doc.fillOpacity(1);
+    
+    // Gradient top accent
+    for (let i = 0; i < 4; i++) {
+      doc.rect(pageCardX, pageCardY + i * 1.5, pageCardW, 1.5).fillOpacity(1 - i * 0.2).fillColor(section.gradient[Math.min(i, 2)]).fill();
+    }
+    doc.fillOpacity(1);
+    drawAdvancedGradientBorder(doc, pageCardX, pageCardY, pageCardW, pageCardH, section.gradient, 2, 12);
+    doc.restore();
+    
+//*************************************************** */
+    // Header box - "Your Personality in Detail" with personality icon
+    const headerBoxY = pageCardY + 12;
+    const headerBoxH = 75; // Increased height for icon
+    const headerBoxX = pageCardX + 20;
+    const headerBoxW = pageCardW - 40;
+    
+    doc.save();
+    doc.roundedRect(headerBoxX, headerBoxY, headerBoxW, headerBoxH, 10).fillColor(section.bgColor).fill();
+    doc.roundedRect(headerBoxX, headerBoxY, headerBoxW, headerBoxH * 0.35, 10).fillOpacity(0.2).fillColor("#FFFFFF").fill();
+    doc.fillOpacity(1);
+    doc.roundedRect(headerBoxX, headerBoxY, headerBoxW, headerBoxH, 10).strokeColor(section.gradient[0]).strokeOpacity(0.3).lineWidth(1).stroke();
+    doc.strokeOpacity(1);
+    doc.restore();
+    
+    // Draw personality header icon (centered above title)
+    const personalityIconSize = 24;
+    const personalityIconX = headerBoxX + (headerBoxW - personalityIconSize) / 2;
+    const personalityIconY = headerBoxY + 8;
+    
+    if (fs.existsSync(PERSONALITY_HEADER_ICON)) {
+      doc.image(PERSONALITY_HEADER_ICON, personalityIconX, personalityIconY, { width: personalityIconSize, height: personalityIconSize });
+    }
+    
+    doc.fontSize(11).font("Helvetica").fillColor(TEXT_MUTED);
+    doc.text("Your Personality in Detail", headerBoxX + 15, personalityIconY + personalityIconSize + 4, { width: headerBoxW - 30, align: "center" });
+    
+    // Draw section icon before section key (COGNITIVE, VERBAL, etc.)
+    const sectionIconPath = PERSONALITY_SECTION_ICONS[section.key];
+    const sectionIconSize = 18;
+    const sectionKeyY = personalityIconY + personalityIconSize + 20;
+    
+    // Calculate text width to center icon + text together
+    doc.fontSize(20).font("Helvetica-Bold");
+    const textWidth = doc.widthOfString(section.key);
+    const totalWidth = sectionIconSize + 8 + textWidth; // icon + gap + text
+    const startX = headerBoxX + (headerBoxW - totalWidth) / 2;
+    
+    if (sectionIconPath && fs.existsSync(sectionIconPath)) {
+      doc.image(sectionIconPath, startX, sectionKeyY, { width: sectionIconSize, height: sectionIconSize });
+      doc.fillColor(section.gradient[0]);
+      doc.text(section.key, startX + sectionIconSize + 8, sectionKeyY - 2, { lineBreak: false });
+    } else {
+      doc.fillColor(section.gradient[0]);
+      doc.text(section.key, headerBoxX + 15, sectionKeyY, { width: headerBoxW - 30, align: "center" });
+    }
+//********************************************************************** */
+    
+    // Inner cards layout
+        // Inner cards layout
+    let contentY = headerBoxY + headerBoxH + 15;
+    const contentPadding = 20;
+    const innerCardW = (pageCardW - contentPadding * 3) / 2;
+    const innerCardH = 110;
+    const innerCardGap = 12;
+    
+        const innerCards = [
+      { title: "Meaning", content: section.meaning, iconPath: INNER_CARD_ICONS.meaning },
+      { title: "Expert Analysis", content: section.expertAnalysis, iconPath: INNER_CARD_ICONS.analysis },
+      { title: "Development Plan", content: section.developmentPlan, iconPath: INNER_CARD_ICONS.developmentplan },
+      { title: "Action Plan", content: section.actionPlan, iconPath: INNER_CARD_ICONS.actionplan }
+    ];
+
+    
+    // First row cards
+    innerCards.slice(0, 2).forEach((card, idx) => {
+      const cardX = pageCardX + contentPadding + (idx * (innerCardW + contentPadding));
+      doc.save();
+      doc.roundedRect(cardX, contentY, innerCardW, innerCardH, 8).fillColor("#FFFFFF").fill();
+      doc.roundedRect(cardX, contentY, innerCardW, 24, 8).fillColor(section.gradient[0]).fill();
+      doc.roundedRect(cardX, contentY, innerCardW, 10, 8).fillOpacity(0.2).fillColor("#FFFFFF").fill();
+      doc.fillOpacity(1);
+      doc.roundedRect(cardX, contentY, innerCardW, innerCardH, 8).strokeColor(section.gradient[0]).strokeOpacity(0.2).lineWidth(0.5).stroke();
+      doc.restore();
+            // Draw icon image if exists, otherwise just title
+      if (fs.existsSync(card.iconPath)) {
+        doc.image(card.iconPath, cardX + 8, contentY + 5, { height: 14 });
+        doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
+        doc.text(card.title, cardX + 26, contentY + 7, { width: innerCardW - 36 });
+      } else {
+        doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
+        doc.text(card.title, cardX + 10, contentY + 7, { width: innerCardW - 20 });
+      }
+
+      doc.fontSize(7).font("Helvetica").fillColor(TEXT_MAIN);
+      doc.text(card.content, cardX + 10, contentY + 30, { width: innerCardW - 20, height: innerCardH - 40, lineGap: 2 });
+    });
+    
+    // Image section
+    const imageY = contentY + innerCardH + innerCardGap;
+    const imageH = 90;
+    const imageW = pageCardW - contentPadding * 2;
+    const imageCenterX = pageCardX + contentPadding;
+    
+    doc.save();
+    doc.roundedRect(imageCenterX - 4, imageY - 4, imageW + 8, imageH + 8, 10).fillColor(section.bgColor).fill();
+    doc.roundedRect(imageCenterX - 4, imageY - 4, imageW + 8, imageH + 8, 10).strokeColor(section.gradient[0]).strokeOpacity(0.3).lineWidth(1.5).stroke();
+    
+    if (fs.existsSync(section.imagePath)) {
+      doc.roundedRect(imageCenterX, imageY, imageW, imageH, 8).clip();
+      doc.image(section.imagePath, imageCenterX, imageY, { width: imageW, height: imageH, fit: [imageW, imageH], align: "center", valign: "center" });
+    } else {
+      doc.roundedRect(imageCenterX, imageY, imageW, imageH, 8).fillColor(section.bgColor).fill();
+      doc.fontSize(40).fillColor(section.gradient[0]).fillOpacity(0.4);
+      doc.text(section.icon, imageCenterX, imageY + imageH / 2 - 25, { width: imageW, align: "center" });
+      doc.fontSize(12).font("Helvetica-Bold").fillOpacity(0.6).fillColor(section.gradient[1]);
+      doc.text(section.key, imageCenterX, imageY + imageH / 2 + 20, { width: imageW, align: "center" });
       doc.fillOpacity(1);
     }
+    doc.restore();
+    
+    // Second row cards
+    const secondRowY = imageY + imageH + innerCardGap + 8;
+    innerCards.slice(2, 4).forEach((card, idx) => {
+      const cardX = pageCardX + contentPadding + (idx * (innerCardW + contentPadding));
+      doc.save();
+      doc.roundedRect(cardX, secondRowY, innerCardW, innerCardH, 8).fillColor("#FFFFFF").fill();
+      doc.roundedRect(cardX, secondRowY, innerCardW, 24, 8).fillColor(section.gradient[1] || section.gradient[0]).fill();
+      doc.roundedRect(cardX, secondRowY, innerCardW, 10, 8).fillOpacity(0.2).fillColor("#FFFFFF").fill();
+      doc.fillOpacity(1);
+      doc.roundedRect(cardX, secondRowY, innerCardW, innerCardH, 8).strokeColor(section.gradient[1]).strokeOpacity(0.2).lineWidth(0.5).stroke();
+      doc.restore();
+            // Draw icon image if exists, otherwise just title
+      if (fs.existsSync(card.iconPath)) {
+        doc.image(card.iconPath, cardX + 8, secondRowY + 5, { height: 14 });
+        doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
+        doc.text(card.title, cardX + 26, secondRowY + 7, { width: innerCardW - 36 });
+      } else {
+        doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
+        doc.text(card.title, cardX + 10, secondRowY + 7, { width: innerCardW - 20 });
+      }
 
-    if (barLength > 20) {
-      doc.fontSize(6).font("Helvetica-Bold").fillColor("#FFFFFF")
-         .text(`${Math.round(score)}%`, barX + barLength - 20, barY + 1, {
-           width: 18,
-           align: "center",
-         });
-    }
-
-    doc.y = currentY + 22;
+      doc.fontSize(7).font("Helvetica").fillColor(TEXT_MAIN);
+      doc.text(card.content, cardX + 10, secondRowY + 30, { width: innerCardW - 20, height: innerCardH - 40, lineGap: 2 });
+    });
   });
+//************************************************************************************************************* */
 
   /* ═════════ CAREER PAGES ═════════ */
   careers.forEach((career) => {
@@ -2017,3 +2650,4 @@ return {
   reportUrl: `/reports/${fileName}`
 };
 };
+
