@@ -13,6 +13,7 @@ const COUNTRY_CODES = [
 export default function ProfileForm({ onSubmit, setAlert }) {
   const [profileData, setProfileData] = useState({
     name: "",
+    email:"",
     countryCode: "+91",
     phoneNumber: "",
     openToAbroad: "",
@@ -41,6 +42,7 @@ export default function ProfileForm({ onSubmit, setAlert }) {
   const handleSubmit = () => {
     if (
       !profileData.name ||
+      !profileData.email ||
       !profileData.phoneNumber ||
       profileData.openToAbroad === "" ||
       !profileData.age ||
@@ -84,6 +86,14 @@ export default function ProfileForm({ onSubmit, setAlert }) {
             className="input"
             value={profileData.name}
             onChange={(e) => handleChange("name", e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="xyz@gmail.com"
+            className="input"
+            value={profileData.email}
+            onChange={(e) => handleChange("email", e.target.value)}
           />
 
           <div className="flex gap-2">

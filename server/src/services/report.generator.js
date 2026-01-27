@@ -1348,7 +1348,7 @@ export const generateAssessmentReport = ({
   // Student details with bullet points - NOW INCLUDING EMAIL
   const detailLineHeight = 22;
   const details = [
-    { label: "Student ID", value: studentProfile.studentId },
+    { label: "Name", value: studentProfile.name },
     { label: "Email", value: studentProfile.email || "Not provided" }, // EMAIL ADDED HERE
     { label: "Class", value: studentProfile.currentClass },
     { label: "Stream", value: studentProfile.stream },
