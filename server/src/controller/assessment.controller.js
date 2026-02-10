@@ -81,9 +81,9 @@ export const runAssessment = async (req, res) => {
     const reportFileName = `career-report-${studentProfile.studentId}.pdf`;
 
     const BASE_URL =
-      process.env.NODE_ENV === "production"
-        ? process.env.BASE_URL
-        : "http://localhost:5000";
+      process.env.BASE_URL ||
+      process.env.RENDER_EXTERNAL_URL ||
+      `${req.protocol}://${req.get("host")}`;
 
     const reportUrl = `${BASE_URL}/reports/${reportFileName}`;
 

@@ -92,14 +92,7 @@ const PERSONALITY_SECTION_ICONS = {
 
 //******************************************************************************************** */
 /* ───────────────── SECTION ICONS ───────────────── */
-/*const SECTION_ICONS = {
-  careerIndia: path.join(process.cwd(), "src/assets/icons/india-flag.png"),
-  careerAbroad: path.join(process.cwd(), "src/assets/icons/globe.png"),
-  fees: path.join(process.cwd(), "src/assets/icons/fees.png"),
-  salary: path.join(process.cwd(), "src/assets/icons/salary.png"),
-  institutes: path.join(process.cwd(), "src/assets/icons/institutes.png"),
-  roadmap: path.join(process.cwd(), "src/assets/icons/roadmap.png"),
-};*/
+
 
 //Anish_24.01.2026_3:41PM
 
