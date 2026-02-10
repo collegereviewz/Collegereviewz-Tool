@@ -70,8 +70,8 @@ export const runAssessment = async (req, res) => {
       globalScore: assessment.globalScore
     });
 
-    /* STEP 5 — FIRE & FORGET PDF */
-    generateAssessmentReport({
+    /* STEP 5 — AWAIT PDF GENERATION */
+    await generateAssessmentReport({
       studentProfile,
       signals: toModelSignals(normalizedSignals, profileData),
       careers: enrichedCareers

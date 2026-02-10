@@ -1,4 +1,4 @@
-import logo from "../assets/basiclogo1.png"; // FIX PATH IF NEEDED
+import logo from "../assets/logo.png"; // FIX PATH IF NEEDED
 // import DarkModeToggle from "./DarkModeToggle";
 
 export default function Header({ darkMode, setDarkMode }) {
