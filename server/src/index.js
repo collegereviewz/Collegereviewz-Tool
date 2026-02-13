@@ -21,7 +21,7 @@ app.use(express.json());
 // CORS Configuration
 const allowedOrigins = [
     "http://localhost:3000",
-    "https://collegereviewz.io", // Add your production domain here
+    "https://collegereview.io/", // Add your production domain here
     "https://collegereviewz-webapp.onrender.com/",
     "https://collegereviewz.onrender.com" // Add Render domain if known
 ];
