@@ -8,10 +8,11 @@ import axios from "axios";
  */
 const API = axios.create({
   baseURL:
-    process.env.NODE_ENV === "production"
-      ? "" // same domain in production
-      : "http://localhost:5000",
-  timeout: 15000,
+    process.env.REACT_APP_API_BASE_URL ||
+    (process.env.NODE_ENV === "production"
+      ? "https://api.collegereview.io"
+      : "http://localhost:5000"),
+  timeout: 120000,
   headers: {
     "Content-Type": "application/json"
   }

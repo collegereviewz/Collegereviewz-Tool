@@ -1801,8 +1801,10 @@ export const generateAssessmentReport = ({
       let currentY = pageY + 25;
 
       // Globe PNG - CENTERED above title
-      doc.image(path.join(ASSETS_DIR, 'icons/globe.png'),
-        pageX + pageW / 2 - 8, currentY, { width: 20, height: 20 });
+      const GLOBE_ICON = path.join(ASSETS_DIR, 'icons/globe.png');
+      if (fs.existsSync(GLOBE_ICON)) {
+        doc.image(GLOBE_ICON, pageX + pageW / 2 - 8, currentY, { width: 20, height: 20 });
+      }
 
       currentY += 28;  // Space after globe
 
@@ -1827,9 +1829,12 @@ export const generateAssessmentReport = ({
       currentY += 35;
 
       // 3️⃣ FACTORS TABLE WITH SETTINGS PNG
-      doc.image(path.join(ASSETS_DIR, 'icons/settings.png'), pageX + 18, currentY - 6, {
-        width: 16, height: 16
-      });
+      const SETTINGS_ICON = path.join(ASSETS_DIR, 'icons/settings.png');
+      if (fs.existsSync(SETTINGS_ICON)) {
+        doc.image(SETTINGS_ICON, pageX + 18, currentY - 6, {
+          width: 16, height: 16
+        });
+      }
       doc.fontSize(11).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
         .text("What Factors Make Your Global Score?", pageX + 40, currentY);
       currentY += 35;
@@ -1871,9 +1876,12 @@ export const generateAssessmentReport = ({
       currentY += 115;
 
       // 4️⃣ INTERPRETATION TABLE WITH CHART PNG
-      doc.image(path.join(ASSETS_DIR, 'icons/chart.png'), pageX + 18, currentY - 6, {
-        width: 16, height: 16
-      });
+      const CHART_ICON = path.join(ASSETS_DIR, 'icons/chart.png');
+      if (fs.existsSync(CHART_ICON)) {
+        doc.image(CHART_ICON, pageX + 18, currentY - 6, {
+          width: 16, height: 16
+        });
+      }
       doc.fontSize(11).font("Helvetica-Bold").fillColor(PRIMARY_DARK)
         .text("How to Read Your Global Score", pageX + 40, currentY);
       currentY += 22;
@@ -1905,15 +1913,21 @@ export const generateAssessmentReport = ({
       // 5️⃣ IS NOT / IS WITH PNG ICONS
       const splitSectionY = currentY + 8;
 
-      doc.image(path.join(ASSETS_DIR, 'icons/warning.png'), pageX + 16, splitSectionY - 6, {
-        width: 16, height: 16
-      });
+      const WARNING_ICON = path.join(ASSETS_DIR, 'icons/warning.png');
+      if (fs.existsSync(WARNING_ICON)) {
+        doc.image(WARNING_ICON, pageX + 16, splitSectionY - 6, {
+          width: 16, height: 16
+        });
+      }
       doc.fontSize(10).font("Helvetica-Bold").fillColor("#DC2626")
         .text("What Global Score is NOT", pageX + 40, splitSectionY);
 
-      doc.image(path.join(ASSETS_DIR, 'icons/check.png'), pageX + pageW / 2 + 1, splitSectionY - 6, {
-        width: 16, height: 16
-      });
+      const CHECK_ICON = path.join(ASSETS_DIR, 'icons/check.png');
+      if (fs.existsSync(CHECK_ICON)) {
+        doc.image(CHECK_ICON, pageX + pageW / 2 + 1, splitSectionY - 6, {
+          width: 16, height: 16
+        });
+      }
       doc.fontSize(10).font("Helvetica-Bold").fillColor("#059669")
         .text("What Global Score IS", pageX + pageW / 2 + 22, splitSectionY);
 
